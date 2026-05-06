@@ -1,0 +1,17 @@
+{
+  "minDurationSeconds": 180,
+  "maxLongstring": 20,
+  "attentionChecks": [
+    { "itemId": "O11", "expectedMin": 1, "expectedMax": 3 },
+    { "itemId": "C10", "expectedMin": 1, "expectedMax": 3 },
+    { "itemId": "A08", "expectedMin": 1, "expectedMax": 3 },
+    { "itemId": "N10", "expectedMin": 3, "expectedMax": 5 }
+  ],
+  "oppositePairs": [
+    { "a": "O02", "b": "O08" },
+    { "a": "C01", "b": "C12" },
+    { "a": "E03", "b": "E10" },
+    { "a": "A01", "b": "A08" },
+    { "a": "N02", "b": "N05" }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "description": "Initial placeholder norms. Replace with norming-phase estimates from representative sample.",
+  "traits": {
+    "O": { "mean": 3.2, "sd": 0.55, "reliability": 0.81 },
+    "C": { "mean": 3.4, "sd": 0.58, "reliability": 0.84 },
+    "E": { "mean": 3.1, "sd": 0.62, "reliability": 0.82 },
+    "A": { "mean": 3.5, "sd": 0.52, "reliability": 0.80 },
+    "N": { "mean": 2.9, "sd": 0.60, "reliability": 0.83 }
+  }
+}
