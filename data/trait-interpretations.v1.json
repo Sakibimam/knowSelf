@@ -1,0 +1,111 @@
+{
+  "globalDisclaimer": "This report estimates personality traits from self-reported answers. It is not a clinical diagnosis, and trait levels can vary across situations and over time.",
+  "confidenceNote": "When confidence flags are present, interpret results cautiously and consider retaking the assessment.",
+  "traits": {
+    "O": {
+      "name": "Openness",
+      "low": {
+        "summary": "You may prefer familiar methods and practical, concrete approaches.",
+        "strengths": ["Consistency with proven routines", "Focus on feasibility", "Reduced distraction from novelty"],
+        "blindSpots": ["May overlook creative alternatives", "Can resist useful change"],
+        "contextCaveat": "Lower openness can be adaptive in highly procedural or risk-sensitive settings."
+      },
+      "typical": {
+        "summary": "You appear flexible, balancing practical execution with selective curiosity.",
+        "strengths": ["Can switch between exploration and execution", "Moderate comfort with new ideas"],
+        "blindSpots": ["May underinvest in either creativity or structure depending on context"],
+        "contextCaveat": "Moderate levels often support broad role fit."
+      },
+      "high": {
+        "summary": "You likely enjoy complexity, novelty, and conceptual exploration.",
+        "strengths": ["Idea generation", "Learning orientation", "Tolerance for ambiguity"],
+        "blindSpots": ["May lose interest in routine follow-through", "Can overvalue novelty"],
+        "contextCaveat": "High openness helps innovation-heavy work but can conflict with rigid environments."
+      }
+    },
+    "C": {
+      "name": "Conscientiousness",
+      "low": {
+        "summary": "You may prefer spontaneity over rigid planning and strict routines.",
+        "strengths": ["Adaptability in fluid conditions", "Comfort with improvisation"],
+        "blindSpots": ["Inconsistent follow-through", "Missed details or deadlines"],
+        "contextCaveat": "Lower conscientiousness may feel natural in exploratory phases but can hurt execution reliability."
+      },
+      "typical": {
+        "summary": "You seem reasonably organized while retaining some flexibility.",
+        "strengths": ["Balanced planning", "Dependable under normal load"],
+        "blindSpots": ["Under heavy stress, systems may break down"],
+        "contextCaveat": "Moderate levels often support sustainable productivity."
+      },
+      "high": {
+        "summary": "You likely value order, discipline, and dependable execution.",
+        "strengths": ["Goal persistence", "Strong planning habits", "Reliable completion"],
+        "blindSpots": ["Perfectionism risk", "Difficulty pivoting quickly"],
+        "contextCaveat": "High conscientiousness is usually beneficial for long-horizon goals."
+      }
+    },
+    "E": {
+      "name": "Extraversion",
+      "low": {
+        "summary": "You may prefer lower-stimulation settings and smaller social doses.",
+        "strengths": ["Reflective thinking", "Comfort with independent work"],
+        "blindSpots": ["May under-signal ideas", "Can avoid useful networking"],
+        "contextCaveat": "Lower extraversion is not a deficit; fit depends on role and environment."
+      },
+      "typical": {
+        "summary": "You appear socially flexible, engaging when needed while tolerating solo work.",
+        "strengths": ["Context-dependent social style", "Balanced energy management"],
+        "blindSpots": ["Can be misread as inconsistent depending on setting"],
+        "contextCaveat": "Moderate levels can work well across mixed collaboration demands."
+      },
+      "high": {
+        "summary": "You likely gain energy from interaction and active environments.",
+        "strengths": ["Social initiative", "Verbal assertiveness", "Group engagement"],
+        "blindSpots": ["May dominate airtime", "Can overlook need for quiet processing"],
+        "contextCaveat": "High extraversion often supports influence-heavy work."
+      }
+    },
+    "A": {
+      "name": "Agreeableness",
+      "low": {
+        "summary": "You may prioritize candor, skepticism, and competitive stance in conflict.",
+        "strengths": ["Critical challenge", "Boundary setting", "Direct negotiation"],
+        "blindSpots": ["Relationship friction", "Lower perceived warmth"],
+        "contextCaveat": "Lower agreeableness can be useful in adversarial or high-stakes decision contexts."
+      },
+      "typical": {
+        "summary": "You seem able to cooperate while still protecting your own position.",
+        "strengths": ["Pragmatic cooperation", "Reasonable empathy in conflict"],
+        "blindSpots": ["May compromise too early or too late depending on pressure"],
+        "contextCaveat": "Moderate levels support teamwork with healthy assertiveness."
+      },
+      "high": {
+        "summary": "You likely value harmony, empathy, and trust-based interaction.",
+        "strengths": ["Conflict de-escalation", "Prosocial behavior", "Team cohesion"],
+        "blindSpots": ["Difficulty with hard confrontation", "Risk of over-accommodation"],
+        "contextCaveat": "High agreeableness is often socially protective but can suppress necessary dissent."
+      }
+    },
+    "N": {
+      "name": "Neuroticism",
+      "low": {
+        "summary": "You may show strong emotional stability under stress.",
+        "strengths": ["Composure", "Faster emotional recovery", "Steady decision pace"],
+        "blindSpots": ["May underestimate risk signals in others"],
+        "contextCaveat": "Lower neuroticism can buffer stress but should not dismiss legitimate concerns."
+      },
+      "typical": {
+        "summary": "You likely experience normal stress sensitivity with manageable fluctuations.",
+        "strengths": ["Adaptive vigilance", "Balanced emotional response"],
+        "blindSpots": ["Stress response may vary with sleep, workload, and uncertainty"],
+        "contextCaveat": "Moderate levels are common and context-dependent."
+      },
+      "high": {
+        "summary": "You may react strongly to stress, uncertainty, or criticism.",
+        "strengths": ["Threat sensitivity", "Error detection vigilance"],
+        "blindSpots": ["Rumination", "Strain under prolonged pressure"],
+        "contextCaveat": "High neuroticism is a trait tendency, not a diagnosis; coping skills and context can strongly change outcomes."
+      }
+    }
+  }
+}
