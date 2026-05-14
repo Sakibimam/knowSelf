@@ -1,0 +1,111 @@
+{
+  "globalDisclaimer": "Not a diagnosis — just a rough map from how you answered today. Your real life is messier than five sliders.",
+  "confidenceNote": "If everything looks extreme, slow down and retake when you're tired-honest, not story-honest.",
+  "traits": {
+    "O": {
+      "name": "Openness",
+      "low": {
+        "summary": "You probably like what works. New angles can feel like noise until they prove themselves.",
+        "strengths": ["You ship instead of spiraling in hypotheticals", "You keep teams from chasing shiny objects", "You notice when an idea won't survive contact with reality"],
+        "blindSpots": ["You might shut the door on something useful because it feels unfamiliar", "Curiosity can read as skepticism even when you're just being careful"],
+        "contextCaveat": "Under pressure, you tend to double down on the known — which is often smart, until the world moves."
+      },
+      "typical": {
+        "summary": "You can get curious without needing every week to feel like a lab experiment.",
+        "strengths": ["You toggle between imagination and execution", "You enjoy novelty when it has a point", "You don't need constant stimulation to stay engaged"],
+        "blindSpots": ["Sometimes you underfeed the creative side, sometimes the practical one — depends on the season", "People may misread you as either \"safe\" or \"weird\" depending on the day"],
+        "contextCaveat": "This one swings with boredom, stress, and who you're around. That's normal."
+      },
+      "high": {
+        "summary": "Ideas pull you. You notice layers other people scroll past — and you can get restless when life feels too small.",
+        "strengths": ["You connect dots across domains", "You learn for the pleasure of it", "Ambiguity doesn't automatically panic you"],
+        "blindSpots": ["Follow-through can lag when the new thing arrives", "You may romanticize novelty and undervalue maintenance"],
+        "contextCaveat": "Works beautifully in exploratory roles; grinds in places that hate change."
+      }
+    },
+    "C": {
+      "name": "Conscientiousness",
+      "low": {
+        "summary": "You'd rather improvise than live inside a spreadsheet. Structure helps — until it feels like a cage.",
+        "strengths": ["You adapt fast when plans collapse", "You're comfortable with \"good enough\" when perfection would slow everyone down", "You bring energy when things are ambiguous"],
+        "blindSpots": ["Deadlines can sneak up when no one's watching", "Small dropped threads pile up quietly"],
+        "contextCaveat": "This often spikes when you're interested, and slips when you're not. That's the whole trick."
+      },
+      "typical": {
+        "summary": "You can plan — you just don't want your life to become the plan.",
+        "strengths": ["You finish what matters without turning everything into a system", "People can usually count on you in normal weeks", "You know when to tighten and when to loosen"],
+        "blindSpots": ["Heavy load or chaos can collapse your scaffolding fast", "You might blame discipline when it's actually bandwidth"],
+        "contextCaveat": "Stress is the real test here, not your best Tuesday."
+      },
+      "high": {
+        "summary": "You like things finished, clear, and where they belong. Loose ends itch.",
+        "strengths": ["You carry long projects across the finish line", "People trust you with detail and follow-through", "You create calm by reducing entropy"],
+        "blindSpots": ["Perfectionism can steal the win", "Pivoting late hurts more for you than for others"],
+        "contextCaveat": "High standards help until they become the voice that never clocks out."
+      }
+    },
+    "E": {
+      "name": "Extraversion",
+      "low": {
+        "summary": "People can drain your battery even when you like them. You recharge alone — and that's not a flaw.",
+        "strengths": ["You think before you talk", "You listen without needing to fill silence", "Solo focus is actually your superpower"],
+        "blindSpots": ["Your good ideas may arrive quietly — easy to miss in loud rooms", "Networking-style small talk can feel like unpaid labor"],
+        "contextCaveat": "You can show up socially when you need to; it just doesn't always refill you."
+      },
+      "typical": {
+        "summary": "You're not a hermit and not a spotlight-seeker — you're situational, which confuses people who want a simple label.",
+        "strengths": ["You can join the room without needing to own it", "You recover from overstimulation if you get space", "You pick depth over volume when it matters"],
+        "blindSpots": ["People read you differently in different contexts — that inconsistency isn't fake, it's human", "You might overcommit socially, then crash"],
+        "contextCaveat": "Energy here depends on sleep, stakes, and whether you actually want to be there."
+      },
+      "high": {
+        "summary": "Talking it out helps you think. Stillness can feel like waiting — not resting.",
+        "strengths": ["You warm up rooms", "You initiate when others hesitate", "Momentum is easier for you to create than to fake"],
+        "blindSpots": ["You might talk past the quiet processors", "Stillness can feel like a problem to solve"],
+        "contextCaveat": "High stimulation roles fit; deep solo craft still needs guardrails."
+      }
+    },
+    "A": {
+      "name": "Agreeableness",
+      "low": {
+        "summary": "You're willing to be the person who says the uncomfortable thing. Harmony is nice — but not always honest.",
+        "strengths": ["You push back when groupthink shows up", "You negotiate without folding early", "You protect boundaries when softness would cost you"],
+        "blindSpots": ["Warmth doesn't always read on your face", "Your directness can land harder than you meant"],
+        "contextCaveat": "This can be a strength in hard decisions — and friction in fragile relationships."
+      },
+      "typical": {
+        "summary": "You can cooperate without disappearing. You can disagree without scorching earth.",
+        "strengths": ["You look for workable compromises", "You care how people feel — within reason", "You can switch between soft and firm when the situation asks"],
+        "blindSpots": ["Under pressure you might go too accommodating — or too sharp", "You might resent harmony you paid for with silence"],
+        "contextCaveat": "The middle is flexible; track what you actually paid for peace."
+      },
+      "high": {
+        "summary": "You feel other people's weather. You'd rather repair than win — until someone mistakes kindness for weakness.",
+        "strengths": ["You de-escalate tension people pretend isn't there", "You build trust fast", "You remember the human side of decisions"],
+        "blindSpots": ["Hard truths get delayed", "You may carry conflicts that were never yours"],
+        "contextCaveat": "Harmony is a gift until it trains people to ignore your needs."
+      }
+    },
+    "N": {
+      "name": "Neuroticism",
+      "low": {
+        "summary": "Stress shows up for you, but it doesn't usually hijack the wheel. That steadiness is rarer than it sounds.",
+        "strengths": ["You recover faster from rough patches", "You don't catastrophize every ping on your phone", "You can hold uncertainty without spinning"],
+        "blindSpots": ["You might underestimate how shaken someone else is", "Risk signals in relationships can look \"dramatic\" from your side"],
+        "contextCaveat": "Steady doesn't mean numb — check you're not dismissing real problems."
+      },
+      "typical": {
+        "summary": "Some weeks you're fine; some weeks your mind runs hot. The line moves — that's the whole deal.",
+        "strengths": ["You notice problems early enough to fix them", "You're not pretending life is easy", "You can self-soothe when you have space"],
+        "blindSpots": ["Sleep, caffeine, and overload change this fast", "You might judge yourself for \"overreacting\" when you're just human"],
+        "contextCaveat": "Context wins: same person, different month, different number."
+      },
+      "high": {
+        "summary": "Your nervous system keeps a tighter grip on the steering wheel. The world feels louder than it \"should.\"",
+        "strengths": ["You catch mistakes before they compound", "You're attuned to emotional weather — yours and theirs", "You don't need fake positivity scripts"],
+        "blindSpots": ["Rumination can turn a small thing into a long night", "Criticism echoes longer than you want it to"],
+        "contextCaveat": "This is tendency, not destiny — skills and support change the lived version a lot."
+      }
+    }
+  }
+}

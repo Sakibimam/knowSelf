@@ -1,0 +1,46 @@
+{
+  "title": "Twenty-five questions",
+  "subtitle": "Go with what feels usual for you — not the version you wish you were.",
+  "scale": {
+    "min": 1,
+    "max": 5,
+    "options": [
+      { "value": 1, "label": "Strongly disagree" },
+      { "value": 2, "label": "Disagree" },
+      { "value": 3, "label": "Neutral" },
+      { "value": 4, "label": "Agree" },
+      { "value": 5, "label": "Strongly agree" }
+    ]
+  },
+  "items": [
+    { "id": "Q01", "trait": "O", "reverseKeyed": false, "text": "I like thinking about ideas that are a little unusual." },
+    { "id": "Q02", "trait": "O", "reverseKeyed": false, "text": "I enjoy learning things outside my everyday routine." },
+    { "id": "Q03", "trait": "O", "reverseKeyed": true, "text": "I prefer sticking to what I know over trying something new." },
+    { "id": "Q04", "trait": "O", "reverseKeyed": false, "text": "I often imagine different ways a situation could go." },
+    { "id": "Q05", "trait": "O", "reverseKeyed": false, "text": "I notice small details in music, art, or writing." },
+
+    { "id": "Q06", "trait": "C", "reverseKeyed": false, "text": "I usually finish what I start." },
+    { "id": "Q07", "trait": "C", "reverseKeyed": true, "text": "My space or schedule is often messy." },
+    { "id": "Q08", "trait": "C", "reverseKeyed": false, "text": "I keep going on boring tasks until they are done." },
+    { "id": "Q09", "trait": "C", "reverseKeyed": false, "text": "I like having a simple plan before I jump into my day." },
+    { "id": "Q10", "trait": "C", "reverseKeyed": true, "text": "I put off important things until I really have to do them." },
+
+    { "id": "Q11", "trait": "E", "reverseKeyed": false, "text": "I feel more upbeat after spending time with people." },
+    { "id": "Q12", "trait": "E", "reverseKeyed": true, "text": "I would rather skip a big social event if I can." },
+    { "id": "Q13", "trait": "E", "reverseKeyed": false, "text": "I speak up when I have an opinion." },
+    { "id": "Q14", "trait": "E", "reverseKeyed": false, "text": "I like days that feel busy and full." },
+    { "id": "Q15", "trait": "E", "reverseKeyed": false, "text": "Starting a conversation with someone new feels fairly easy." },
+
+    { "id": "Q16", "trait": "A", "reverseKeyed": false, "text": "I try to understand someone before I judge them." },
+    { "id": "Q17", "trait": "A", "reverseKeyed": false, "text": "In a disagreement, I look for a middle ground." },
+    { "id": "Q18", "trait": "A", "reverseKeyed": false, "text": "Most people mean well until they show me otherwise." },
+    { "id": "Q19", "trait": "A", "reverseKeyed": false, "text": "I care about how my words might land on others." },
+    { "id": "Q20", "trait": "A", "reverseKeyed": true, "text": "I am quick to doubt people's motives." },
+
+    { "id": "Q21", "trait": "N", "reverseKeyed": false, "text": "I worry about what could go wrong more than I want to." },
+    { "id": "Q22", "trait": "N", "reverseKeyed": true, "text": "I stay calm when things get stressful." },
+    { "id": "Q23", "trait": "N", "reverseKeyed": false, "text": "Small annoyances can ruin my mood for a while." },
+    { "id": "Q24", "trait": "N", "reverseKeyed": false, "text": "Critical feedback stays in my head for a long time." },
+    { "id": "Q25", "trait": "N", "reverseKeyed": true, "text": "I bounce back quickly after a rough day." }
+  ]
+}

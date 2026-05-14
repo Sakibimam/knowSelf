@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f4f2f9;
+  --bg-elevated: #faf8ff;
+  --fg: #1e1b2e;
+  --fg-muted: #5c5674;
+  --fg-subtle: #7a7394;
+  --border: rgba(30, 27, 46, 0.07);
+  --accent: #5b6ab8;
+  --accent-soft: rgba(91, 106, 184, 0.14);
+  --glow-1: rgba(120, 140, 200, 0.32);
+  --glow-2: rgba(160, 130, 190, 0.22);
+  --ring: rgba(91, 106, 184, 0.45);
+  --shadow-sm: 0 1px 2px rgba(30, 27, 46, 0.05);
+  --shadow-md: 0 8px 28px rgba(30, 27, 46, 0.07);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #13111c;
+    --bg-elevated: #1c1928;
+    --fg: #f0eef7;
+    --fg-muted: #a9a3c2;
+    --fg-subtle: #7d7799;
+    --border: rgba(240, 238, 247, 0.08);
+    --accent: #8b9ae8;
+    --accent-soft: rgba(139, 154, 232, 0.16);
+    --glow-1: rgba(100, 120, 200, 0.18);
+    --glow-2: rgba(140, 110, 180, 0.12);
+    --ring: rgba(139, 154, 232, 0.5);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-elevated: var(--bg-elevated);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --shadow-surface: var(--shadow-md);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, "Times New Roman", serif;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
