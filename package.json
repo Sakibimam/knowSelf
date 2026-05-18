@@ -7,9 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "npm run build --prefix knowself",
-    "vercel-build": "npm run build --prefix knowself",
-    "dev": "npm run dev --prefix knowself",
+    "build": "cd knowself && npm run build",
+    "vercel-build": "cd knowself && npm install && npm run build",
+    "dev": "cd knowself && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

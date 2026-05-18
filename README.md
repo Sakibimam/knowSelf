@@ -42,9 +42,15 @@ npm start
 
 ### Deploy on Vercel
 
-1. Import [github.com/Sakibimam/knowSelf](https://github.com/Sakibimam/knowSelf).
-2. Set **Root Directory** to `knowself` (Project Settings → General), **or** leave root as-is — root `vercel.json` builds the app in `knowself/`.
-3. Framework preset: **Next.js**. Build command defaults to `npm run build` inside the root directory you chose.
+**Recommended:** Project Settings → General → **Root Directory** → `knowself` → Save → Redeploy.
+
+That runs `next build` where `app/` actually lives. Root `vercel.json` is a fallback (`cd knowself && npm run build`) if you keep Root Directory as `.`.
+
+If a deploy still fails with “Couldn't find any `pages` or `app` directory”:
+
+1. Clear any **Build Command** override in Vercel (should not be `next build` at repo root).
+2. Set Root Directory to `knowself`, or rely on root `vercel-build` (`cd knowself && npm install && npm run build`).
+3. Redeploy after pulling latest `main`.
 
 ---
 
