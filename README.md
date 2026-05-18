@@ -40,6 +40,12 @@ npm run build
 npm start
 ```
 
+### Deploy on Vercel
+
+1. Import [github.com/Sakibimam/knowSelf](https://github.com/Sakibimam/knowSelf).
+2. Set **Root Directory** to `knowself` (Project Settings → General), **or** leave root as-is — root `vercel.json` builds the app in `knowself/`.
+3. Framework preset: **Next.js**. Build command defaults to `npm run build` inside the root directory you chose.
+
 ---
 
 ## App architecture

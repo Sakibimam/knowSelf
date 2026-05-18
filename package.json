@@ -1,22 +1,19 @@
 {
   "name": "trait",
   "version": "1.0.0",
-  "description": "Scientifically grounded Big Five personality assessment starter pack:",
-  "main": "index.js",
+  "private": true,
+  "description": "Big Five psychometric toolkit and KnowSelf monorepo",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
+    "build": "npm run build --prefix knowself",
+    "vercel-build": "npm run build --prefix knowself",
+    "dev": "npm run dev --prefix knowself",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "motion": "^12.38.0",
-    "next": "^16.2.4",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
-  }
+  "type": "commonjs"
 }
