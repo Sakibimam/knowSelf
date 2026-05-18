@@ -1,19 +1,29 @@
 {
-  "name": "trait",
-  "version": "1.0.0",
+  "name": "knowself",
+  "version": "0.1.0",
   "private": true,
-  "description": "Big Five psychometric toolkit and KnowSelf monorepo",
-  "directories": {
-    "doc": "docs"
-  },
+  "description": "KnowSelf — Big Five quiz and psychometric toolkit",
   "scripts": {
-    "build": "cd knowself && npm run build",
-    "vercel-build": "cd knowself && npm install && npm run build",
-    "dev": "cd knowself && npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint knowself",
+    "score-demo": "node scripts/score_demo.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "dependencies": {
+    "motion": "^12.38.0",
+    "next": "16.2.4",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
 }

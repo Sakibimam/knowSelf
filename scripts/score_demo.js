@@ -6,17 +6,17 @@ const { scoreAssessment } = require("../src/scoring");
 const { buildFinalReport } = require("../src/report");
 
 const itemBank = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "../data/item-bank.v1.json"), "utf8")
+  fs.readFileSync(path.join(__dirname, "../psychometric-data/item-bank.v1.json"), "utf8")
 ).items;
 const norms = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "../data/norms.v1.json"), "utf8")
+  fs.readFileSync(path.join(__dirname, "../psychometric-data/norms.v1.json"), "utf8")
 ).traits;
 const cfg = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "../data/scoring-config.v1.json"), "utf8")
+  fs.readFileSync(path.join(__dirname, "../psychometric-data/scoring-config.v1.json"), "utf8")
 );
 const interpretations = JSON.parse(
   fs.readFileSync(
-    path.join(__dirname, "../data/trait-interpretations.v1.json"),
+    path.join(__dirname, "../psychometric-data/trait-interpretations.v1.json"),
     "utf8"
   )
 );

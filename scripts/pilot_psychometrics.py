@@ -8,7 +8,7 @@ Input CSV requirements:
 - Optional metadata columns are ignored
 
 Usage:
-  python scripts/pilot_psychometrics.py --responses data/pilot/responses.csv
+  python scripts/pilot_psychometrics.py --responses psychometric-data/pilot/responses.csv
 """
 
 from __future__ import annotations
@@ -94,8 +94,8 @@ def pseudo_factor_quality(keyed: pd.DataFrame, selected_items: List[str]) -> Tup
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--responses", required=True, type=Path)
-    parser.add_argument("--item-bank", type=Path, default=Path("data/item-bank.v1.json"))
-    parser.add_argument("--out", type=Path, default=Path("data/pilot/report.json"))
+    parser.add_argument("--item-bank", type=Path, default=Path("psychometric-data/item-bank.v1.json"))
+    parser.add_argument("--out", type=Path, default=Path("psychometric-data/pilot/report.json"))
     args = parser.parse_args()
 
     responses = pd.read_csv(args.responses)
