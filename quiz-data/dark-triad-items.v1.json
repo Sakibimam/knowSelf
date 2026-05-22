@@ -1,0 +1,29 @@
+{
+  "title": "Dirty Dozen",
+  "subtitle": "12 questions on three traits: Machiavellianism, psychopathy, and narcissism. Answer for how you usually are.",
+  "scale": {
+    "min": 1,
+    "max": 5,
+    "options": [
+      { "value": 1, "label": "Strongly disagree" },
+      { "value": 2, "label": "Disagree" },
+      { "value": 3, "label": "Neutral" },
+      { "value": 4, "label": "Agree" },
+      { "value": 5, "label": "Strongly agree" }
+    ]
+  },
+  "items": [
+    { "id": "DD01", "trait": "MAC", "reverseKeyed": false, "text": "I tend to manipulate others to get my way." },
+    { "id": "DD02", "trait": "MAC", "reverseKeyed": false, "text": "I have used deceit or lied to get my way." },
+    { "id": "DD03", "trait": "MAC", "reverseKeyed": false, "text": "I have used flattery to get my way." },
+    { "id": "DD04", "trait": "MAC", "reverseKeyed": false, "text": "I tend to exploit others toward my own ends." },
+    { "id": "DD05", "trait": "PSY", "reverseKeyed": false, "text": "I tend to lack remorse." },
+    { "id": "DD06", "trait": "PSY", "reverseKeyed": false, "text": "I tend to be unconcerned with the morality of my actions." },
+    { "id": "DD07", "trait": "PSY", "reverseKeyed": false, "text": "I tend to be callous or insensitive." },
+    { "id": "DD08", "trait": "PSY", "reverseKeyed": false, "text": "I tend to be cynical." },
+    { "id": "DD09", "trait": "NAR", "reverseKeyed": false, "text": "I tend to want others to admire me." },
+    { "id": "DD10", "trait": "NAR", "reverseKeyed": false, "text": "I tend to want others to pay attention to me." },
+    { "id": "DD11", "trait": "NAR", "reverseKeyed": false, "text": "I tend to seek prestige or status." },
+    { "id": "DD12", "trait": "NAR", "reverseKeyed": false, "text": "I tend to expect special favors from others." }
+  ]
+}

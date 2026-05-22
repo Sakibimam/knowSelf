@@ -1,6 +1,6 @@
 # KnowSelf
 
-A Big Five personality product: a **Next.js app** for a short quiz and plain-language results, plus a **psychometric toolkit** (item bank, scoring engine, pilot analysis).
+A personality app with **Big Five** and **Dark Triad (Dirty Dozen)** quizzes, plus a **psychometric toolkit** (item banks, scoring, pilot analysis).
 
 > **Not clinical.** KnowSelf is for self-reflection and education. It is not a diagnostic instrument and does not replace professional assessment.
 
@@ -17,8 +17,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-- **`/`** — trait results home (`localStorage`)
-- **`/quiz`** — 25-item Big Five questionnaire (5 items × 5 traits)
+- **`/`** — Big Five results home (`localStorage`)
+- **`/quiz`** — 25-item Big Five quiz (5 items × 5 traits)
+- **`/quiz/dark-triad`** — Dirty Dozen (12 items: Machiavellianism, psychopathy traits, narcissism)
 
 ```bash
 npm run build
@@ -64,8 +65,11 @@ python scripts/pilot_psychometrics.py --responses psychometric-data/pilot/respon
 | `docs/measurement-framework.md` | Model, reverse-key map, quality thresholds |
 | `psychometric-data/item-bank.v1.json` | 75-item bank (60 active + 15 reserve) |
 | `psychometric-data/norms.v1.json` | Norm means/SDs |
-| `quiz-data/quiz-items.v1.json` | App short-form items |
-| `quiz-data/trait-interpretations.v1.json` | User-facing trait copy |
+| `quiz-data/quiz-items.v1.json` | Big Five short-form items |
+| `quiz-data/trait-interpretations.v1.json` | Big Five trait copy |
+| `quiz-data/dark-triad-items.v1.json` | Dirty Dozen items (Jonason & Webster, 2010) |
+| `quiz-data/dark-triad-interpretations.v1.json` | Dark Triad trait copy |
+| `docs/dark-triad-measurement.md` | Dirty Dozen scoring and use rules |
 
 ---
 

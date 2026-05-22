@@ -86,9 +86,9 @@ export function identityFromResults(results: QuizResult[]): {
     };
   }
 
-  const label = LABELS[top.trait][top.level];
-  const topName = traitName(top.trait);
-  const secondName = traitName(second.trait);
+  const label = LABELS[top.trait as TraitKey][top.level];
+  const topName = traitName(top.trait as TraitKey);
+  const secondName = traitName(second.trait as TraitKey);
   const body = howYouShowed(top);
 
   const line1 = `Your strongest pattern here was ${topName}: ${body}.`;

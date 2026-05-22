@@ -85,28 +85,13 @@ export function meanTraitScores(
   min: number,
   max: number,
 ): Record<TraitKey, number> {
-  const sums: Record<TraitKey, number> = {
-    O: 0,
-    C: 0,
-    E: 0,
-    A: 0,
-    N: 0,
-  };
-  const counts: Record<TraitKey, number> = { O: 0, C: 0, E: 0, A: 0, N: 0 };
-
-  for (const item of items) {
-    const raw = coerceScaleAnswer(answers[item.id], min, max);
-    if (raw === undefined) continue;
-    const s = keyedScore(raw, item.reverseKeyed, min, max);
-    sums[item.trait] += s;
-    counts[item.trait] += 1;
-  }
-
-  const out = {} as Record<TraitKey, number>;
-  for (const k of TRAIT_KEYS) {
-    out[k] = counts[k] ? sums[k] / counts[k] : min;
-  }
-  return out;
+  return meanTraitScoresFor(
+    TRAIT_KEYS,
+    items,
+    answers,
+    min,
+    max,
+  ) as Record<TraitKey, number>;
 }
 
 export function levelFromMean(mean: number): TraitLevelBand {
@@ -126,20 +111,60 @@ export function meanToPercentIndex(
   return Math.round(Math.min(100, Math.max(0, t * 100)));
 }
 
+export function meanTraitScoresFor(
+  traitKeys: readonly string[],
+  items: QuizItem[],
+  answers: Record<string, unknown>,
+  min: number,
+  max: number,
+): Record<string, number> {
+  const sums: Record<string, number> = {};
+  const counts: Record<string, number> = {};
+  for (const k of traitKeys) {
+    sums[k] = 0;
+    counts[k] = 0;
+  }
+
+  for (const item of items) {
+    const raw = coerceScaleAnswer(answers[item.id], min, max);
+    if (raw === undefined) continue;
+    if (!(item.trait in sums)) continue;
+    const s = keyedScore(raw, item.reverseKeyed, min, max);
+    sums[item.trait]! += s;
+    counts[item.trait]! += 1;
+  }
+
+  const out: Record<string, number> = {};
+  for (const k of traitKeys) {
+    out[k] = counts[k] ? sums[k]! / counts[k]! : min;
+  }
+  return out;
+}
+
+export function buildQuizResultsFor(
+  traitKeys: readonly string[],
+  items: QuizItem[],
+  answers: Record<string, unknown>,
+  min: number,
+  max: number,
+): QuizResult[] {
+  const means = meanTraitScoresFor(traitKeys, items, answers, min, max);
+  return traitKeys.map((trait) => {
+    const mean = Math.round(means[trait]! * 100) / 100;
+    return {
+      trait,
+      mean,
+      percentIndex: meanToPercentIndex(means[trait]!, min, max),
+      level: levelFromMean(means[trait]!),
+    };
+  });
+}
+
 export function buildQuizResults(
   items: QuizItem[],
   answers: Record<string, unknown>,
   min: number,
   max: number,
 ): QuizResult[] {
-  const means = meanTraitScores(items, answers, min, max);
-  return TRAIT_KEYS.map((trait) => {
-    const mean = Math.round(means[trait] * 100) / 100;
-    return {
-      trait,
-      mean,
-      percentIndex: meanToPercentIndex(means[trait], min, max),
-      level: levelFromMean(means[trait]),
-    };
-  });
+  return buildQuizResultsFor(TRAIT_KEYS, items, answers, min, max);
 }

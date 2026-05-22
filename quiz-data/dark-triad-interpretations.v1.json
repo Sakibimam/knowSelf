@@ -1,0 +1,69 @@
+{
+  "globalDisclaimer": "This is not a diagnosis. It describes tendencies from your answers today. Do not use these results for hiring, school admission, or labeling other people.",
+  "confidenceNote": "These traits are sensitive. If every score looks very high or very low, try again when you can answer honestly. Scores can change with mood and context.",
+  "traits": {
+    "MAC": {
+      "name": "Machiavellianism",
+      "low": {
+        "summary": "You rarely use strategy or deception to get what you want. You prefer direct, fair approaches.",
+        "strengths": ["People often trust your motives", "You build goodwill instead of burning bridges", "You avoid games that backfire later"],
+        "blindSpots": ["You may miss when others are playing politics", "You may give away leverage in competitive settings"],
+        "contextCaveat": "Low scores here do not mean you are naive — you may simply dislike manipulation."
+      },
+      "typical": {
+        "summary": "You can be strategic when needed, but it is not your default mode.",
+        "strengths": ["You read situations before you act", "You can negotiate without going cold", "You balance honesty with practicality"],
+        "blindSpots": ["Under pressure you may slip into sharper tactics than you like", "Others may not know which version of you they are getting"],
+        "contextCaveat": "Context matters: work politics and personal life pull different behavior."
+      },
+      "high": {
+        "summary": "You often plan ahead, use charm or strategy, and focus on your own goals in social situations.",
+        "strengths": ["You can navigate politics and power", "You protect your interests in tough rooms", "You see angles others miss"],
+        "blindSpots": ["People may feel used even when you think you were fair", "Trust can erode if strategy becomes a habit"],
+        "contextCaveat": "High scores describe tendency, not a fixed character label."
+      }
+    },
+    "PSY": {
+      "name": "Psychopathy (everyday traits)",
+      "low": {
+        "summary": "You usually care about rules and other people's feelings. Guilt and empathy show up for you.",
+        "strengths": ["You repair harm when you cause it", "You take morality seriously in decisions", "You notice when someone is hurt"],
+        "blindSpots": ["You may struggle in cutthroat environments that reward coldness", "You may judge harshly when others seem uncaring"],
+        "contextCaveat": "This scale measures subclinical traits, not a personality disorder."
+      },
+      "typical": {
+        "summary": "You can be cool-headed, but you are not usually cold or reckless.",
+        "strengths": ["You stay calm under stress", "You can make hard calls without panicking", "You still feel remorse when you cross a line"],
+        "blindSpots": ["Sometimes you under-react to others' pain", "Sometimes you over-react and feel guilty later"],
+        "contextCaveat": "Sleep, stress, and anger can temporarily shift this score."
+      },
+      "high": {
+        "summary": "You may show low remorse, low concern for rules, and a cooler emotional style in conflicts.",
+        "strengths": ["You stay steady in crises", "You can act fast without getting stuck in guilt", "You are hard to rattle"],
+        "blindSpots": ["Others may see you as harsh or uncaring", "Risk-taking can go too far when bored or challenged"],
+        "contextCaveat": "A high score is not the same as being a bad person or having a clinical condition."
+      }
+    },
+    "NAR": {
+      "name": "Narcissism",
+      "low": {
+        "summary": "You do not strongly need admiration, status, or special treatment from others.",
+        "strengths": ["You share credit easily", "You can listen without steering attention back to you", "You feel okay when you are not the center"],
+        "blindSpots": ["You may undersell your work", "You may tolerate less recognition than you deserve"],
+        "contextCaveat": "Low narcissism is not the same as low confidence."
+      },
+      "typical": {
+        "summary": "You want respect and recognition sometimes, but it does not run your life.",
+        "strengths": ["You can advocate for yourself when it matters", "You enjoy praise without needing it constantly", "You balance ego with empathy"],
+        "blindSpots": ["Competition can bring out a sharper side", "Rejection may sting more than you admit"],
+        "contextCaveat": "Social media and work culture can temporarily push this score up."
+      },
+      "high": {
+        "summary": "You often want admiration, status, and special treatment. Being overlooked can bother you.",
+        "strengths": ["You project confidence", "You pursue goals others avoid", "You can inspire or lead when self-focus is managed"],
+        "blindSpots": ["Relationships may strain if your needs always come first", "Feedback can feel like an attack"],
+        "contextCaveat": "High scores point to patterns to watch, not a lifetime label."
+      }
+    }
+  }
+}

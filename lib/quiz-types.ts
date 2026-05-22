@@ -1,5 +1,3 @@
-import type { TraitKey } from "@/lib/trait-order";
-
 export type QuizScaleOption = {
   value: 1 | 2 | 3 | 4 | 5;
   label: string;
@@ -7,7 +5,7 @@ export type QuizScaleOption = {
 
 export type QuizItem = {
   id: string;
-  trait: TraitKey;
+  trait: string;
   reverseKeyed: boolean;
   text: string;
 };
@@ -26,7 +24,7 @@ export type QuizPack = {
 export type TraitLevelBand = "low" | "typical" | "high";
 
 export type QuizResult = {
-  trait: TraitKey;
+  trait: string;
   /** Mean keyed response on the Likert scale (after reverse scoring). */
   mean: number;
   /** 0–100 display index: linear map of `mean` across the scale range (not a population percentile). */

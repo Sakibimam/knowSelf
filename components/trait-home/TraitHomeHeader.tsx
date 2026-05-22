@@ -25,10 +25,16 @@ export function TraitHomeHeader() {
             Traits
           </a>
           <Link
+            href="/quiz/dark-triad"
+            className="inline-flex min-h-11 items-center justify-center rounded-full px-3 text-xs font-medium text-muted transition-colors hover:bg-elevated hover:text-foreground sm:px-4 sm:text-sm touch-manipulation focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
+          >
+            Dark Triad
+          </Link>
+          <Link
             href="/quiz"
             className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-accent px-4 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] dark:text-stone-950 sm:px-5 touch-manipulation focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
           >
-            Quiz
+            Big Five
           </Link>
         </nav>
       </div>

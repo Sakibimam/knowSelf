@@ -127,11 +127,17 @@ export function TraitHomeBody({ data }: Props) {
                   href="/quiz"
                   className="inline-flex min-h-12 w-full flex-1 items-center justify-center rounded-2xl bg-accent px-6 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-[transform,box-shadow,opacity] hover:shadow-[var(--shadow-md)] active:scale-[0.99] dark:text-stone-950 sm:w-auto sm:min-w-44 sm:flex-none touch-manipulation focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
                 >
-                  Start quiz
+                  Big Five quiz
+                </Link>
+                <Link
+                  href="/quiz/dark-triad"
+                  className="inline-flex min-h-12 w-full flex-1 items-center justify-center rounded-2xl bg-elevated/80 px-6 text-sm font-medium text-foreground shadow-[var(--shadow-sm)] backdrop-blur-sm transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] sm:w-auto sm:min-w-44 sm:flex-none touch-manipulation focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
+                >
+                  Dirty Dozen (12)
                 </Link>
                 <a
                   href="#dimensions"
-                  className="inline-flex min-h-12 w-full flex-1 items-center justify-center rounded-2xl bg-elevated/80 px-6 text-sm font-medium text-foreground shadow-[var(--shadow-sm)] backdrop-blur-sm transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] sm:w-auto sm:flex-none touch-manipulation focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
+                  className="inline-flex min-h-12 w-full flex-1 items-center justify-center rounded-2xl border border-border/80 bg-background/40 px-6 text-sm font-medium text-muted shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:text-foreground hover:shadow-[var(--shadow-md)] active:scale-[0.99] sm:w-auto sm:flex-none touch-manipulation focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
                 >
                   Read traits first
                 </a>

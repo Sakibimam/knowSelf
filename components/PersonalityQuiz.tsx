@@ -9,24 +9,33 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PsychometricTransparencyPanel } from "@/components/PsychometricTransparencyPanel";
 import type { InterpretationsData, TraitBand } from "@/lib/interpretations";
-import { identityFromResults } from "@/lib/identity-archetype";
+import {
+  BIG_FIVE_QUIZ_CONFIG,
+  DARK_TRIAD_QUIZ_CONFIG,
+  type QuizAssessmentConfig,
+  type QuizVariant,
+} from "@/lib/quiz-assessment-config";
 import type { QuizPack, QuizResult } from "@/lib/quiz-types";
 import {
-  buildQuizResults,
+  buildQuizResultsFor,
   firstUnansweredIndex,
   isQuizComplete,
   sanitizeQuizAnswers,
 } from "@/lib/score-quiz";
-import { TRAIT_KEYS, traitTint, type TraitKey } from "@/lib/trait-order";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
-const STORAGE_KEY = "trait-quiz-answers-v1";
 
 type Phase = "intro" | "quiz" | "results";
+
+const QUIZ_CONFIGS: Record<QuizVariant, QuizAssessmentConfig> = {
+  "big-five": BIG_FIVE_QUIZ_CONFIG,
+  "dark-triad": DARK_TRIAD_QUIZ_CONFIG,
+};
 
 type Props = {
   pack: QuizPack;
   interpretations: InterpretationsData;
+  variant: QuizVariant;
 };
 
 function progressPhrase(index: number, total: number): string {
@@ -52,18 +61,22 @@ function levelAdverb(level: QuizResult["level"]): string {
   return "moderately";
 }
 
-export function PersonalityQuiz({ pack, interpretations }: Props) {
+export function PersonalityQuiz({ pack, interpretations, variant }: Props) {
+  const config = QUIZ_CONFIGS[variant];
   const reduce = !!useReducedMotion();
   const [phase, setPhase] = useState<Phase>("intro");
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [consentOk, setConsentOk] = useState(!config.introConsentLabel);
+  const storageKey = config.storageKey;
+  const traitKeys = config.traitKeys;
   const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const indexRef = useRef(index);
   indexRef.current = index;
 
   const total = pack.items.length;
-  const itemsPerTrait = TRAIT_KEYS.length
-    ? Math.round(total / TRAIT_KEYS.length)
+  const itemsPerTrait = traitKeys.length
+    ? Math.round(total / traitKeys.length)
     : 5;
   const item = pack.items[index];
   const answeredHere = item
@@ -89,7 +102,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
+      const raw = sessionStorage.getItem(storageKey);
       if (!raw) return;
       const parsed = JSON.parse(raw) as {
         answers?: Record<string, unknown>;
@@ -112,38 +125,38 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
 
       if (isQuizComplete(pack.items, cleaned, scaleMin, scaleMax)) {
         setPhase("results");
-        sessionStorage.removeItem(STORAGE_KEY);
+        sessionStorage.removeItem(storageKey);
       } else {
         setPhase("quiz");
       }
     } catch {
       /* ignore */
     }
-  }, [pack.items, scaleMin, scaleMax, total]);
+  }, [pack.items, scaleMin, scaleMax, storageKey, total]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (phase !== "quiz") return;
     try {
       sessionStorage.setItem(
-        STORAGE_KEY,
+        storageKey,
         JSON.stringify({ answers, index }),
       );
     } catch {
       /* ignore */
     }
-  }, [answers, index, phase]);
+  }, [answers, index, phase, storageKey]);
 
   useEffect(() => {
     if (phase !== "quiz") return;
     if (!quizComplete) return;
     setPhase("results");
     try {
-      sessionStorage.removeItem(STORAGE_KEY);
+      sessionStorage.removeItem(storageKey);
     } catch {
       /* ignore */
     }
-  }, [phase, quizComplete]);
+  }, [phase, quizComplete, storageKey]);
 
   useEffect(() => {
     return () => {
@@ -170,7 +183,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
         ) {
           setPhase("results");
           try {
-            sessionStorage.removeItem(STORAGE_KEY);
+            sessionStorage.removeItem(storageKey);
           } catch {
             /* ignore */
           }
@@ -187,19 +200,20 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
         setIndex((i) => Math.min(i + 1, total - 1));
       }, reduce ? 0 : 340);
     },
-    [item, pack.items, reduce, scaleMin, scaleMax, total],
+    [item, pack.items, reduce, scaleMin, scaleMax, storageKey, total],
   );
 
   const restart = useCallback(() => {
     setAnswers({});
     setIndex(0);
     setPhase("intro");
+    setConsentOk(!config.introConsentLabel);
     try {
-      sessionStorage.removeItem(STORAGE_KEY);
+      sessionStorage.removeItem(storageKey);
     } catch {
       /* ignore */
     }
-  }, []);
+  }, [config.introConsentLabel, storageKey]);
 
   const goToResults = useCallback(() => {
     if (
@@ -221,20 +235,26 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
     }
     setPhase("results");
     try {
-      sessionStorage.removeItem(STORAGE_KEY);
+      sessionStorage.removeItem(storageKey);
     } catch {
       /* ignore */
     }
-  }, [answers, pack.items, scaleMin, scaleMax]);
+  }, [answers, pack.items, scaleMin, scaleMax, storageKey]);
 
   const results = useMemo(() => {
     if (!quizComplete) return null;
-    return buildQuizResults(pack.items, answers, scaleMin, scaleMax);
-  }, [quizComplete, pack.items, answers, scaleMin, scaleMax]);
+    return buildQuizResultsFor(
+      traitKeys,
+      pack.items,
+      answers,
+      scaleMin,
+      scaleMax,
+    );
+  }, [quizComplete, pack.items, answers, scaleMin, scaleMax, traitKeys]);
 
   const identity = useMemo(
-    () => (results ? identityFromResults(results) : null),
-    [results],
+    () => (results ? config.getIdentity(results) : null),
+    [config, results],
   );
   const rankedResults = useMemo(
     () =>
@@ -318,27 +338,48 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
               <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted sm:text-base">
                 {pack.subtitle}
               </p>
-              <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-muted">
-                Answer honestly. This quiz only knows what you click today. It
-                does not know your full life story.
-              </p>
+              {config.introExtra ? (
+                <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-muted">
+                  {config.introExtra}
+                </p>
+              ) : (
+                <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-muted">
+                  Answer honestly. This quiz only knows what you click today. It
+                  does not know your full life story.
+                </p>
+              )}
+
+              {config.introConsentLabel ? (
+                <label className="mx-auto mt-6 flex max-w-md cursor-pointer items-start gap-3 rounded-2xl bg-elevated/50 p-4 text-left shadow-[var(--shadow-sm)]">
+                  <input
+                    type="checkbox"
+                    checked={consentOk}
+                    onChange={(e) => setConsentOk(e.target.checked)}
+                    className="mt-1 size-4 shrink-0 rounded border-border accent-accent"
+                  />
+                  <span className="text-sm leading-snug text-muted">
+                    {config.introConsentLabel}
+                  </span>
+                </label>
+              ) : null}
 
               <details className="mx-auto mt-8 max-w-md rounded-2xl bg-elevated/50 p-4 text-left shadow-[var(--shadow-sm)] sm:p-5">
                 <summary className="cursor-pointer list-none text-sm font-medium text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
                   Tips before you start
                 </summary>
                 <ul className="mt-3 space-y-2 border-t border-border/80 pt-3 text-sm leading-snug text-muted">
-                  <li>Think about the last few weeks, not your ideal self.</li>
-                  <li>If every answer sounds flattering, slow down and be more honest.</li>
-                  <li>A low score is not an insult. It just means a different pattern.</li>
+                  {(config.groundRules ?? []).map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
                 </ul>
               </details>
 
               <button
                 type="button"
+                disabled={!consentOk}
                 onClick={() => {
                   try {
-                    sessionStorage.removeItem(STORAGE_KEY);
+                    sessionStorage.removeItem(storageKey);
                   } catch {
                     /* ignore */
                   }
@@ -346,7 +387,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                   setIndex(0);
                   setPhase("quiz");
                 }}
-                className="mt-10 inline-flex min-h-12 w-full max-w-xs items-center justify-center rounded-2xl bg-accent px-6 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-[transform,opacity,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] dark:text-stone-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
+                className="mt-10 inline-flex min-h-12 w-full max-w-xs items-center justify-center rounded-2xl bg-accent px-6 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-[transform,opacity,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-45 dark:text-stone-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
               >
                 Start quiz
               </button>
@@ -479,18 +520,17 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                   id="results-spectrum-heading"
                   className="font-display text-base font-medium text-foreground sm:text-lg"
                 >
-                  Your five trait scores
+                  {config.spectrumTitle}
                 </h2>
                 <p className="mt-1.5 text-xs leading-relaxed text-subtle sm:text-sm sm:text-muted">
-                  Each bar uses the same scale so you can compare traits. This is
-                  not a ranking against other people.
+                  {config.spectrumHint}
                 </p>
                 <ul className="mt-5 flex flex-col gap-5">
                   {results.map((r) => (
                     <li key={r.trait} className="list-none">
                       <SnapshotRow
                         name={interpretations.traits[r.trait].name}
-                        traitKey={r.trait}
+                        tint={config.traitTint[r.trait]}
                         percent={r.percentIndex}
                         level={r.level}
                         reduce={reduce}
@@ -508,16 +548,17 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                   id="results-shape-heading"
                   className="font-display text-base font-medium text-foreground sm:text-lg"
                 >
-                  Your shape at a glance
+                  {config.shapeTitle}
                 </h2>
                 <p className="mt-1.5 text-xs leading-relaxed text-subtle sm:text-sm sm:text-muted">
-                  This is the same data as the bars, shown as one profile so your overall
-                  pattern is easier to see.
+                  {config.shapeHint}
                 </p>
                 <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
                   <TraitRadar
                     results={results}
-                    names={interpretations.traits as Record<string, { name: string }>}
+                    traitKeys={traitKeys}
+                    axisLabels={config.traitAxisLabels}
+                    radarNote={config.radarNote}
                   />
                   <ol className="space-y-3">
                     {rankedResults.slice(0, 3).map((r, idx) => (
@@ -537,18 +578,17 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
               </section>
 
               <h2 className="font-display mt-12 text-lg font-medium text-foreground sm:text-xl">
-                Read more about each trait
+                {config.detailsTitle}
               </h2>
               <p className="mx-auto mt-2 max-w-xl text-center text-sm leading-relaxed text-muted sm:mx-0 sm:text-left">
-                Open a trait to see a longer summary, strengths, and possible
-                downsides.
+                {config.detailsHint}
               </p>
               <ul className="mt-6 flex flex-col gap-3 text-left sm:gap-4">
                 {results.map((r) => (
                   <TraitResultFold
                     key={r.trait}
                     traitName={interpretations.traits[r.trait].name}
-                    traitKey={r.trait}
+                    tint={config.traitTint[r.trait]}
                     band={interpretations.traits[r.trait][r.level]}
                     percentIndex={r.percentIndex}
                     levelLabel={levelWord(r.level)}
@@ -600,18 +640,17 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
 
 function SnapshotRow({
   name,
-  traitKey,
+  tint,
   percent,
   level,
   reduce,
 }: {
   name: string;
-  traitKey: TraitKey;
+  tint?: string;
   percent: number;
   level: QuizResult["level"];
   reduce: boolean;
 }) {
-  const tint = traitTint[traitKey];
   return (
     <div>
       <div className="flex flex-wrap items-end justify-between gap-2 gap-y-1">
@@ -633,10 +672,14 @@ function SnapshotRow({
 
 function TraitRadar({
   results,
-  names,
+  traitKeys,
+  axisLabels,
+  radarNote,
 }: {
   results: QuizResult[];
-  names: Record<string, { name: string }>;
+  traitKeys: readonly string[];
+  axisLabels?: Record<string, string>;
+  radarNote: string;
 }) {
   const size = 280;
   const center = size / 2;
@@ -644,8 +687,8 @@ function TraitRadar({
   const steps = 4;
 
   const pointsFor = (scale: number): string =>
-    TRAIT_KEYS.map((trait, i) => {
-      const angle = (-Math.PI / 2) + (i * 2 * Math.PI) / TRAIT_KEYS.length;
+    traitKeys.map((trait, i) => {
+      const angle = (-Math.PI / 2) + (i * 2 * Math.PI) / traitKeys.length;
       const r = maxRadius * scale;
       const x = center + Math.cos(angle) * r;
       const y = center + Math.sin(angle) * r;
@@ -653,13 +696,13 @@ function TraitRadar({
     }).join(" ");
 
   const resultByTrait = new Map(results.map((r) => [r.trait, r]));
-  const dataPoints = TRAIT_KEYS.map((trait, i) => {
-    const angle = (-Math.PI / 2) + (i * 2 * Math.PI) / TRAIT_KEYS.length;
+  const dataPoints = traitKeys.map((trait, i) => {
+    const angle = (-Math.PI / 2) + (i * 2 * Math.PI) / traitKeys.length;
     const score = (resultByTrait.get(trait)?.percentIndex ?? 0) / 100;
     const r = maxRadius * score;
     return {
       trait,
-      name: names[trait]?.name ?? trait,
+      name: axisLabels?.[trait] ?? trait,
       x: center + Math.cos(angle) * r,
       y: center + Math.sin(angle) * r,
       lx: center + Math.cos(angle) * (maxRadius + 18),
@@ -687,8 +730,8 @@ function TraitRadar({
             />
           );
         })}
-        {TRAIT_KEYS.map((trait, i) => {
-          const angle = (-Math.PI / 2) + (i * 2 * Math.PI) / TRAIT_KEYS.length;
+        {traitKeys.map((trait, i) => {
+          const angle = (-Math.PI / 2) + (i * 2 * Math.PI) / traitKeys.length;
           const x = center + Math.cos(angle) * maxRadius;
           const y = center + Math.sin(angle) * maxRadius;
           return (
@@ -768,21 +811,19 @@ function TraitStrengthBar({
 
 function TraitResultFold({
   traitName,
-  traitKey,
+  tint,
   band,
   percentIndex,
   levelLabel,
   reduce,
 }: {
   traitName: string;
-  traitKey: TraitKey;
+  tint?: string;
   band: TraitBand;
   percentIndex: number;
   levelLabel: string;
   reduce: boolean;
 }) {
-  const tint = traitTint[traitKey];
-
   return (
     <li className="list-none">
       <details className="group rounded-2xl bg-elevated/55 shadow-[var(--shadow-sm)] open:bg-elevated/70 open:shadow-[var(--shadow-md)] dark:bg-elevated/40 dark:open:bg-elevated/55">
