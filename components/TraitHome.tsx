@@ -5,14 +5,15 @@ import { TraitPageFooter } from "@/components/trait-home/TraitPageFooter";
 
 type Props = {
   data: InterpretationsData;
+  darkTriadData: InterpretationsData;
 };
 
 /** Server shell: static header/footer; interactive landing lives in `TraitHomeBody`. */
-export function TraitHome({ data }: Props) {
+export function TraitHome({ data, darkTriadData }: Props) {
   return (
     <div className="relative min-h-full overflow-x-hidden text-foreground">
       <TraitHomeHeader />
-      <TraitHomeBody data={data} />
+      <TraitHomeBody data={data} darkTriadData={darkTriadData} />
       <TraitPageFooter />
     </div>
   );

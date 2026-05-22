@@ -8,6 +8,7 @@ import {
   type Variants,
 } from "motion/react";
 import { useId, useState } from "react";
+import { DARK_TRAIT_KEYS, darkTraitTint } from "@/lib/dark-triad-order";
 import type { InterpretationsData, TraitLevel } from "@/lib/interpretations";
 import { TRAIT_KEYS, traitTint, type TraitKey } from "@/lib/trait-order";
 
@@ -81,9 +82,10 @@ const VALUE_POINTS = [
 
 type Props = {
   data: InterpretationsData;
+  darkTriadData: InterpretationsData;
 };
 
-export function TraitHomeBody({ data }: Props) {
+export function TraitHomeBody({ data, darkTriadData }: Props) {
   const reduceMotion = useReducedMotion();
   const c = containerVariants(!!reduceMotion);
   const i = itemVariants(!!reduceMotion);
@@ -232,31 +234,100 @@ export function TraitHomeBody({ data }: Props) {
               id="dimensions-heading"
               className="font-display mt-1 text-[clamp(1.25rem,0.95rem+1.5vw,1.75rem)] font-medium tracking-tight text-foreground sm:text-2xl"
             >
-              The five traits
+              Read the traits
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted sm:max-w-xl sm:text-base">
-              Tap low, middle, or high to see different notes for the same trait.
-              These are patterns, not fixed labels.
+              Tap low, middle, or high to preview notes for each trait. These are
+              patterns, not fixed labels or diagnoses.
             </p>
           </div>
-          <motion.ul
-            className="mx-auto mt-8 flex max-w-2xl flex-col gap-3.5 sm:mt-10 sm:gap-4 md:max-w-3xl lg:mt-12"
-            variants={c}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-40px" }}
-            role="list"
+
+          <div
+            id="big-five-traits"
+            className="mx-auto mt-12 max-w-2xl scroll-mt-28 md:max-w-3xl lg:mt-14"
           >
-            {TRAIT_KEYS.map((key) => (
-              <TraitCard
-                key={key}
-                traitKey={key}
-                trait={data.traits[key]}
-                variants={i}
-                reduced={reduce}
-              />
-            ))}
-          </motion.ul>
+            <div className="flex flex-col gap-3 border-b border-border/60 pb-6 sm:flex-row sm:items-end sm:justify-between">
+              <div className="text-left">
+                <h3 className="font-display text-lg font-medium text-foreground sm:text-xl">
+                  Big Five (OCEAN)
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                  Openness, Conscientiousness, Extraversion, Agreeableness,
+                  Neuroticism.
+                </p>
+              </div>
+              <Link
+                href="/quiz"
+                className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-full bg-accent/15 px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
+              >
+                Take quiz →
+              </Link>
+            </div>
+            <motion.ul
+              className="mt-6 flex flex-col gap-3.5 sm:mt-8 sm:gap-4"
+              variants={c}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-40px" }}
+              role="list"
+            >
+              {TRAIT_KEYS.map((key) => (
+                <TraitCard
+                  key={key}
+                  badge="Big Five"
+                  tint={traitTint[key]}
+                  trait={data.traits[key]}
+                  variants={i}
+                  reduced={reduce}
+                />
+              ))}
+            </motion.ul>
+          </div>
+
+          <div
+            id="dark-triad-traits"
+            className="mx-auto mt-14 max-w-2xl scroll-mt-28 md:max-w-3xl lg:mt-16"
+          >
+            <div className="flex flex-col gap-3 border-b border-border/60 pb-6 sm:flex-row sm:items-end sm:justify-between">
+              <div className="text-left">
+                <h3 className="font-display text-lg font-medium text-foreground sm:text-xl">
+                  Dark Triad (Dirty Dozen)
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                  Machiavellianism, psychopathy traits, and narcissism — 12
+                  questions in the quiz.
+                </p>
+              </div>
+              <Link
+                href="/quiz/dark-triad"
+                className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-full bg-accent/15 px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
+              >
+                Take quiz →
+              </Link>
+            </div>
+            <p className="mt-5 rounded-2xl bg-elevated/45 p-4 text-left text-sm leading-relaxed text-muted sm:p-5">
+              {darkTriadData.globalDisclaimer}
+            </p>
+            <motion.ul
+              className="mt-6 flex flex-col gap-3.5 sm:mt-8 sm:gap-4"
+              variants={c}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-40px" }}
+              role="list"
+            >
+              {DARK_TRAIT_KEYS.map((key) => (
+                <TraitCard
+                  key={key}
+                  badge="Dark Triad"
+                  tint={darkTraitTint[key]}
+                  trait={darkTriadData.traits[key]}
+                  variants={i}
+                  reduced={reduce}
+                />
+              ))}
+            </motion.ul>
+          </div>
         </section>
       </main>
     </>
@@ -380,15 +451,15 @@ function AmbientBackdrop({ reduced }: { reduced: boolean }) {
 }
 
 type CardProps = {
-  traitKey: TraitKey;
+  badge: string;
+  tint: string;
   trait: InterpretationsData["traits"][string];
   variants: Variants;
   reduced: boolean;
 };
 
-function TraitCard({ traitKey, trait, variants, reduced }: CardProps) {
+function TraitCard({ badge, tint, trait, variants, reduced }: CardProps) {
   const [level, setLevel] = useState<TraitLevel>("typical");
-  const tint = traitTint[traitKey];
   const panelId = useId();
   const headingId = `${panelId}-title`;
 
@@ -417,7 +488,7 @@ function TraitCard({ traitKey, trait, variants, reduced }: CardProps) {
               {trait.name}
             </h3>
             <span className="shrink-0 text-xs font-medium uppercase tracking-wider text-subtle">
-              OCEAN
+              {badge}
             </span>
           </div>
           <p
