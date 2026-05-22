@@ -6,29 +6,29 @@ const LABELS: Record<
   { low: string; typical: string; high: string }
 > = {
   O: {
-    low: "The Grounded Eye",
-    typical: "The Curious Middle",
-    high: "The Wide Lens",
+    low: "Lower openness",
+    typical: "Middle openness",
+    high: "Higher openness",
   },
   C: {
-    low: "The Improviser",
-    typical: "The Flexible Hand",
-    high: "The Finish Line",
+    low: "Lower conscientiousness",
+    typical: "Middle conscientiousness",
+    high: "Higher conscientiousness",
   },
   E: {
-    low: "The Inward Current",
-    typical: "The Situational Flame",
-    high: "The Outward Spark",
+    low: "Lower extraversion",
+    typical: "Middle extraversion",
+    high: "Higher extraversion",
   },
   A: {
-    low: "The Clear Edge",
-    typical: "The Negotiated Heart",
-    high: "The Soft Landing",
+    low: "Lower agreeableness",
+    typical: "Middle agreeableness",
+    high: "Higher agreeableness",
   },
   N: {
-    low: "The Steady Voltage",
-    typical: "The Moving Weather",
-    high: "The High-Alert Mind",
+    low: "Lower neuroticism",
+    typical: "Middle neuroticism",
+    high: "Higher neuroticism",
   },
 };
 
@@ -53,20 +53,16 @@ function traitName(k: TraitKey): string {
   }
 }
 
-/** Second-person read on how the strongest trait showed up in the clicks. */
 function howYouShowed(top: QuizResult): string {
   if (top.level === "high") {
-    return "you kept lending that cluster real heat — the same kind of item kept getting a strong yes";
+    return "you agreed strongly with many items in this area";
   }
   if (top.level === "low") {
-    return "you kept sliding past that cluster — not allergic to it, just not where you wanted to camp";
+    return "you disagreed more often with items in this area";
   }
-  return "you lived in the gray there — enough shape to notice, not enough to turn it into a caricature";
+  return "your answers were mixed in this area";
 }
 
-/**
- * Editorial mirror: small label + lines that sound like recognition, not a report.
- */
 export function identityFromResults(results: QuizResult[]): {
   eyebrow: string;
   label: string;
@@ -80,12 +76,12 @@ export function identityFromResults(results: QuizResult[]): {
 
   if (d1 < 11 && d2 < 11) {
     return {
-      eyebrow: "Nothing leaned hard — that's information too",
-      label: "The Quiet Blend",
+      eyebrow: "No single trait stood out",
+      label: "Balanced pattern",
       lines: [
-        "Your answers didn't pick a fight with any one trait; the graph stayed polite.",
-        "That can mean you're genuinely even-keel this month, or that you're still deciding how honest you want to be, or that life is just… middle-volume right now.",
-        "Use the bars below like a reflection: notice what you nod at, and what you want to argue with — the argument is often the useful part.",
+        "Your answers did not lean hard toward any one trait.",
+        "That can mean you are fairly balanced right now, or that your answers were cautious.",
+        "Use the bars below. Notice what feels true and what you disagree with.",
       ],
     };
   }
@@ -95,17 +91,17 @@ export function identityFromResults(results: QuizResult[]): {
   const secondName = traitName(second.trait);
   const body = howYouShowed(top);
 
-  const line1 = `${topName} is where your pattern kept returning on this pass: ${body}.`;
+  const line1 = `Your strongest pattern here was ${topName}: ${body}.`;
   const line2 =
     d2 >= 14
-      ? `${secondName} is doing quieter work behind it — not the loudest line, but it's tinting how the rest reads for you.`
-      : "The other traits still shape the full picture; this one just had the clearest voice in this particular pass.";
+      ? `${secondName} was second. It still affects how the full picture reads.`
+      : "Your other traits still matter. This one was just the clearest in this quiz.";
 
   const line3 =
-    "When a line feels too accurate, slow down and ask what it's pointing at. When it misses, that mismatch is yours to trust — no score owns you.";
+    "If a line feels very accurate, think about what it points to in your daily life. If it feels wrong, trust that too. One quiz does not define you.";
 
   return {
-    eyebrow: "What your answers kept insisting on",
+    eyebrow: "Your main pattern",
     label,
     lines: [line1, line2, line3],
   };

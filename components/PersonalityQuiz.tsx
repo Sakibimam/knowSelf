@@ -13,6 +13,7 @@ import { identityFromResults } from "@/lib/identity-archetype";
 import type { QuizPack, QuizResult } from "@/lib/quiz-types";
 import {
   buildQuizResults,
+  firstUnansweredIndex,
   isQuizComplete,
   sanitizeQuizAnswers,
 } from "@/lib/score-quiz";
@@ -31,18 +32,18 @@ type Props = {
 function progressPhrase(index: number, total: number): string {
   const i = index + 1;
   const t = total;
-  if (i <= 2) return "First few strokes on a rough map.";
-  if (i / t < 0.35) return "You're still finding the shape of this.";
-  if (i / t < 0.52) return "Halfway through — stay with your gut.";
-  if (i / t < 0.78) return "You're past the tidy answers now.";
-  if (i < t) return "Almost there. Don't sand down the edges too much.";
+  if (i <= 2) return "Just getting started.";
+  if (i / t < 0.35) return "Keep going.";
+  if (i / t < 0.52) return "About halfway.";
+  if (i / t < 0.78) return "More than halfway.";
+  if (i < t) return "Almost done.";
   return "";
 }
 
 function levelWord(level: QuizResult["level"]): string {
-  if (level === "low") return "Softer in your pattern here";
-  if (level === "high") return "Louder in your pattern here";
-  return "Living around the middle on this one";
+  if (level === "low") return "Lower on this trait";
+  if (level === "high") return "Higher on this trait";
+  return "Middle on this trait";
 }
 
 function levelAdverb(level: QuizResult["level"]): string {
@@ -161,10 +162,23 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
       const cur = indexRef.current;
       const isLast = cur >= total - 1;
 
-      setAnswers((prev) => ({ ...prev, [id]: value }));
+      setAnswers((prev) => {
+        const next = { ...prev, [id]: value };
+        if (
+          isLast &&
+          isQuizComplete(pack.items, next, scaleMin, scaleMax)
+        ) {
+          setPhase("results");
+          try {
+            sessionStorage.removeItem(STORAGE_KEY);
+          } catch {
+            /* ignore */
+          }
+        }
+        return next;
+      });
       if (advanceTimer.current) clearTimeout(advanceTimer.current);
 
-      /** Last answer: state-driven completion effect handles transition to results. */
       if (isLast) {
         return;
       }
@@ -173,7 +187,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
         setIndex((i) => Math.min(i + 1, total - 1));
       }, reduce ? 0 : 340);
     },
-    [item, reduce, total],
+    [item, pack.items, reduce, scaleMin, scaleMax, total],
   );
 
   const restart = useCallback(() => {
@@ -188,14 +202,30 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
   }, []);
 
   const goToResults = useCallback(() => {
-    if (!quizComplete) return;
+    if (
+      !isQuizComplete(
+        pack.items,
+        answers as Record<string, unknown>,
+        scaleMin,
+        scaleMax,
+      )
+    ) {
+      const missing = firstUnansweredIndex(
+        pack.items,
+        answers as Record<string, unknown>,
+        scaleMin,
+        scaleMax,
+      );
+      if (missing >= 0) setIndex(missing);
+      return;
+    }
     setPhase("results");
     try {
       sessionStorage.removeItem(STORAGE_KEY);
     } catch {
       /* ignore */
     }
-  }, [quizComplete]);
+  }, [answers, pack.items, scaleMin, scaleMax]);
 
   const results = useMemo(() => {
     if (!quizComplete) return null;
@@ -237,7 +267,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
             </p>
           )}
           {phase === "results" && (
-            <span className="text-xs text-subtle">Your pass</span>
+            <span className="text-xs text-subtle">Your results</span>
           )}
         </div>
         {phase === "quiz" && (
@@ -289,19 +319,18 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                 {pack.subtitle}
               </p>
               <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-muted">
-                Some of this may land close. That usually means the questions
-                caught a real habit, not that anyone here knows your whole
-                story.
+                Answer honestly. This quiz only knows what you click today. It
+                does not know your full life story.
               </p>
 
               <details className="mx-auto mt-8 max-w-md rounded-2xl bg-elevated/50 p-4 text-left shadow-[var(--shadow-sm)] sm:p-5">
                 <summary className="cursor-pointer list-none text-sm font-medium text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
-                  Ground rules
+                  Tips before you start
                 </summary>
                 <ul className="mt-3 space-y-2 border-t border-border/80 pt-3 text-sm leading-snug text-muted">
-                  <li>Think last few weeks, not your fantasy résumé.</li>
-                  <li>If every answer is flattering, the mirror fogs.</li>
-                  <li>Low isn&apos;t an insult — it&apos;s a different tradeoff.</li>
+                  <li>Think about the last few weeks, not your ideal self.</li>
+                  <li>If every answer sounds flattering, slow down and be more honest.</li>
+                  <li>A low score is not an insult. It just means a different pattern.</li>
                 </ul>
               </details>
 
@@ -338,8 +367,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                   {item.text}
                 </legend>
                 <p className="mx-auto mt-4 max-w-sm text-center text-xs leading-relaxed text-subtle sm:text-sm">
-                  Don&apos;t overthink, first answer that feels like your usual
-                  week.
+                  Pick the first answer that fits your usual week.
                 </p>
                 <div
                   className="mx-auto mt-10 flex w-full max-w-md flex-col gap-2.5"
@@ -382,7 +410,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                     onClick={goToResults}
                     className="min-h-11 rounded-2xl bg-accent px-5 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] dark:text-stone-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
                   >
-                    See what came back
+                    {quizComplete ? "See results" : "Go to missing answers"}
                   </button>
                 ) : (
                   <span className="text-xs text-subtle">Pick one to continue</span>
@@ -399,11 +427,11 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
               className="mx-auto max-w-md text-center"
             >
               <p className="font-display text-lg font-medium text-foreground">
-                Scores aren&apos;t ready
+                Results are not ready
               </p>
               <p className="mt-3 text-sm leading-relaxed text-muted">
-                We need a valid answer on every question before the map locks in.
-                That can happen after a refresh or if storage had partial data.
+                You need an answer on every question. This can happen after a
+                refresh or if saved data was incomplete.
               </p>
               <button
                 type="button"
@@ -433,7 +461,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                 {identity.label}
               </h1>
               <p className="mx-auto mt-2 max-w-xl text-sm leading-snug text-subtle sm:mx-0">
-                A nickname from this pass — not a box, not a diagnosis.
+                A short label from this quiz. It is not a diagnosis.
               </p>
               <div className="mx-auto mt-5 max-w-2xl space-y-3.5 text-sm leading-relaxed text-muted sm:mx-0 sm:text-base">
                 {identity.lines.map((line, i) => (
@@ -451,11 +479,11 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                   id="results-spectrum-heading"
                   className="font-display text-base font-medium text-foreground sm:text-lg"
                 >
-                  Five lines in the glass
+                  Your five trait scores
                 </h2>
                 <p className="mt-1.5 text-xs leading-relaxed text-subtle sm:text-sm sm:text-muted">
-                  Same stretch for every bar so you can compare habits — not
-                  “how you rank against strangers.”
+                  Each bar uses the same scale so you can compare traits. This is
+                  not a ranking against other people.
                 </p>
                 <ul className="mt-5 flex flex-col gap-5">
                   {results.map((r) => (
@@ -494,7 +522,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                   <ol className="space-y-3">
                     {rankedResults.slice(0, 3).map((r, idx) => (
                       <li key={r.trait} className="list-none rounded-2xl bg-background/45 p-3.5">
-                        <p className="text-xs text-subtle">Signal {idx + 1}</p>
+                        <p className="text-xs text-subtle">Rank {idx + 1}</p>
                         <p className="mt-1 text-sm font-medium text-foreground">
                           {interpretations.traits[r.trait].name}
                         </p>
@@ -509,12 +537,11 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
               </section>
 
               <h2 className="font-display mt-12 text-lg font-medium text-foreground sm:text-xl">
-                Sit with what lands
+                Read more about each trait
               </h2>
               <p className="mx-auto mt-2 max-w-xl text-center text-sm leading-relaxed text-muted sm:mx-0 sm:text-left">
-                Open only what you want company with. Each fold is a longer look
-                at you on that habit — the part that feels familiar, the part
-                that might smart a little.
+                Open a trait to see a longer summary, strengths, and possible
+                downsides.
               </p>
               <ul className="mt-6 flex flex-col gap-3 text-left sm:gap-4">
                 {results.map((r) => (
@@ -532,8 +559,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
 
               <div className="mt-10">
                 <p className="mb-3 text-center text-xs leading-relaxed text-subtle sm:text-left">
-                  If you want the plain mechanics — how averages became bars —
-                  it lives here. No shame in skipping it.
+                  Optional: how the scores are calculated.
                 </p>
                 <PsychometricTransparencyPanel
                   scaleMin={pack.scale.min}
@@ -544,7 +570,7 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
 
               <div className="mt-8 rounded-2xl bg-background/35 px-4 py-3 sm:px-5">
                 <p className="text-center text-xs leading-relaxed text-subtle sm:text-left">
-                  <span className="text-muted">Room for error: </span>
+                  <span className="text-muted">Remember: </span>
                   {interpretations.globalDisclaimer}
                 </p>
               </div>
@@ -555,13 +581,13 @@ export function PersonalityQuiz({ pack, interpretations }: Props) {
                   onClick={restart}
                   className="min-h-12 rounded-2xl border border-border/80 bg-background/40 px-6 text-sm font-medium text-foreground shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
                 >
-                  Another pass through the mirror
+                  Take quiz again
                 </button>
                 <Link
                   href="/"
                   className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-accent px-6 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] dark:text-stone-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
                 >
-                  Step away for now
+                  Back to home
                 </Link>
               </div>
             </motion.div>
@@ -707,8 +733,8 @@ function TraitRadar({
         ))}
       </svg>
       <p className="mt-2 text-center text-xs text-subtle">
-        O, C, E, A, N axes. Larger area means stronger overall expression, not
-        “better.”
+        O, C, E, A, N axes. A larger shape means a stronger score on that trait,
+        not a better person.
       </p>
     </div>
   );
@@ -780,13 +806,13 @@ function TraitResultFold({
             <span className="text-accent" aria-hidden>
               ·{" "}
             </span>
-            If this sounds like you, unfold it
+            Tap to read more
           </p>
         </summary>
         <div className="border-t border-border/60 px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
           <p className="text-sm leading-relaxed text-muted">{band.summary}</p>
-          <FoldList title="What often works in your corner" items={band.strengths} />
-          <FoldList title="Where it can cost you" items={band.blindSpots} />
+          <FoldList title="What often helps" items={band.strengths} />
+          <FoldList title="What can cause problems" items={band.blindSpots} />
           <p className="mt-4 text-xs leading-relaxed text-subtle">
             {band.contextCaveat}
           </p>

@@ -66,16 +66,16 @@ const LEVEL_LABEL: Record<TraitLevel, string> = {
 
 const VALUE_POINTS = [
   {
-    title: "Five lenses",
-    body: "Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism. The usual Big Five map, in plain language.",
+    title: "Five traits",
+    body: "Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism. These are the Big Five traits in simple words.",
   },
   {
-    title: "What you actually read",
-    body: "A band (lower / mid / higher) plus notes that sound like behavior: what tends to work, what can pinch, when life bends it.",
+    title: "What you get",
+    body: "Each trait gets a level (low, middle, or high) plus short notes on strengths, risks, and when context matters.",
   },
   {
-    title: "Where it lives",
-    body: "Quiz scoring stays in this browser until you refresh. No account, just don't expect your phone to remember what your laptop saw.",
+    title: "Saved in this browser",
+    body: "Your quiz answers stay on this device until you refresh. There is no account. Another device will not see your results.",
   },
 ] as const;
 
@@ -115,11 +115,11 @@ export function TraitHomeBody({ data }: Props) {
                 id="hero-heading"
                 className="font-display max-w-[20ch] text-[clamp(1.85rem,1rem+3.8vw,3rem)] font-medium leading-[1.08] tracking-tight text-balance sm:max-w-[24ch]"
               >
-                You already know yourself. This might still surprise you.
+                A short quiz about how you usually think and act
               </h1>
               <p className="mt-5 max-w-xl text-pretty text-sm leading-relaxed text-muted sm:mt-6 sm:text-lg">
-                A quiet pass over five habits of mind. Some lines will feel
-                obvious; a few might land too close, that&apos;s the point.
+                Twenty-five questions on five personality traits. Some answers
+                may feel obvious. Some may feel uncomfortable. Both are useful.
               </p>
 
               <div className="mt-9 flex w-full min-w-0 flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-stretch">
@@ -145,11 +145,10 @@ export function TraitHomeBody({ data }: Props) {
                 aria-label="Answering tips"
               >
                 <p className="text-sm font-medium text-foreground">
-                  Answer like a normal week
+                  Answer for a normal week
                 </p>
                 <p className="mt-1.5 text-sm leading-snug text-muted">
-                  Flattery makes a foggy mirror. Lean toward what&apos;s true
-                  enough to be a little boring.
+                  Pick what is mostly true for you, not what sounds best.
                 </p>
               </aside>
             </motion.div>
@@ -206,7 +205,7 @@ export function TraitHomeBody({ data }: Props) {
               id="disclaimer-heading"
               className="font-display relative text-lg font-medium text-foreground"
             >
-              Before you lean in
+              Before you start
             </h2>
             <p className="relative mt-3 text-sm leading-relaxed text-muted sm:text-base">
               {data.globalDisclaimer}
@@ -227,11 +226,11 @@ export function TraitHomeBody({ data }: Props) {
               id="dimensions-heading"
               className="font-display mt-1 text-[clamp(1.25rem,0.95rem+1.5vw,1.75rem)] font-medium tracking-tight text-foreground sm:text-2xl"
             >
-              Five ways you show up
+              The five traits
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted sm:max-w-xl sm:text-base">
-              Tap low / mid / high to hear a different slice of the same trait —
-              habits, not destiny.
+              Tap low, middle, or high to see different notes for the same trait.
+              These are patterns, not fixed labels.
             </p>
           </div>
           <motion.ul
@@ -466,8 +465,8 @@ function TraitCard({ traitKey, trait, variants, reduced }: CardProps) {
               transition={{ duration: 0.35, ease: easeOut }}
               className="space-y-4 text-sm"
             >
-              <BandList title="What tends to work" items={trait[level].strengths} />
-              <BandList title="What can pinch" items={trait[level].blindSpots} />
+              <BandList title="What often helps" items={trait[level].strengths} />
+              <BandList title="What can cause problems" items={trait[level].blindSpots} />
               <p className="border-t border-border pt-3 text-xs leading-relaxed text-subtle">
                 {trait[level].contextCaveat}
               </p>

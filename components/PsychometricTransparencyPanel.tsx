@@ -56,8 +56,8 @@ export function PsychometricTransparencyPanel({
         <li className="flex gap-2">
           <span className="mt-2 size-1 shrink-0 rounded-full bg-accent" aria-hidden />
           <span>
-            Short quizzes wobble with mood and sleep. Weirdly perfect profiles
-            deserve side-eye.
+            Short quizzes change with mood and sleep. If every score looks
+            extreme, try again another day.
           </span>
         </li>
       </ul>

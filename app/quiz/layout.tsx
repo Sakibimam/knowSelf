@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Check-in — Trait",
-  description: "25 gentle questions about how you tend to think, act, and feel.",
+  description: "25 questions about how you usually think, act, and feel.",
 };
 
 export default function QuizLayout({

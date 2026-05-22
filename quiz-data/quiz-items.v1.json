@@ -1,6 +1,6 @@
 {
-  "title": "Twenty-five questions",
-  "subtitle": "Go with what feels usual for you — not the version you wish you were.",
+  "title": "25 questions",
+  "subtitle": "Answer for how you usually are, not how you wish you were.",
   "scale": {
     "min": 1,
     "max": 5,
@@ -28,19 +28,19 @@
     { "id": "Q11", "trait": "E", "reverseKeyed": false, "text": "I feel more upbeat after spending time with people." },
     { "id": "Q12", "trait": "E", "reverseKeyed": true, "text": "I would rather skip a big social event if I can." },
     { "id": "Q13", "trait": "E", "reverseKeyed": false, "text": "I speak up when I have an opinion." },
-    { "id": "Q14", "trait": "E", "reverseKeyed": false, "text": "I like days that feel busy and full." },
-    { "id": "Q15", "trait": "E", "reverseKeyed": false, "text": "Starting a conversation with someone new feels fairly easy." },
+    { "id": "Q14", "trait": "E", "reverseKeyed": false, "text": "I like being around people most days." },
+    { "id": "Q15", "trait": "E", "reverseKeyed": true, "text": "I need a lot of alone time to recharge." },
 
-    { "id": "Q16", "trait": "A", "reverseKeyed": false, "text": "I try to understand someone before I judge them." },
-    { "id": "Q17", "trait": "A", "reverseKeyed": false, "text": "In a disagreement, I look for a middle ground." },
-    { "id": "Q18", "trait": "A", "reverseKeyed": false, "text": "Most people mean well until they show me otherwise." },
-    { "id": "Q19", "trait": "A", "reverseKeyed": false, "text": "I care about how my words might land on others." },
-    { "id": "Q20", "trait": "A", "reverseKeyed": true, "text": "I am quick to doubt people's motives." },
+    { "id": "Q16", "trait": "A", "reverseKeyed": false, "text": "I try to see the other person's side in a disagreement." },
+    { "id": "Q17", "trait": "A", "reverseKeyed": true, "text": "I can be blunt even when it might hurt feelings." },
+    { "id": "Q18", "trait": "A", "reverseKeyed": false, "text": "I care about keeping peace in a group." },
+    { "id": "Q19", "trait": "A", "reverseKeyed": false, "text": "I trust people until they give me a reason not to." },
+    { "id": "Q20", "trait": "A", "reverseKeyed": true, "text": "I argue my point even when others want to move on." },
 
-    { "id": "Q21", "trait": "N", "reverseKeyed": false, "text": "I worry about what could go wrong more than I want to." },
-    { "id": "Q22", "trait": "N", "reverseKeyed": true, "text": "I stay calm when things get stressful." },
-    { "id": "Q23", "trait": "N", "reverseKeyed": false, "text": "Small annoyances can ruin my mood for a while." },
-    { "id": "Q24", "trait": "N", "reverseKeyed": false, "text": "Critical feedback stays in my head for a long time." },
-    { "id": "Q25", "trait": "N", "reverseKeyed": true, "text": "I bounce back quickly after a rough day." }
+    { "id": "Q21", "trait": "N", "reverseKeyed": false, "text": "Small worries can stick in my head for a while." },
+    { "id": "Q22", "trait": "N", "reverseKeyed": true, "text": "I stay calm when plans change at the last minute." },
+    { "id": "Q23", "trait": "N", "reverseKeyed": false, "text": "I get stressed more easily than people around me." },
+    { "id": "Q24", "trait": "N", "reverseKeyed": false, "text": "My mood can shift quickly during a hard week." },
+    { "id": "Q25", "trait": "N", "reverseKeyed": true, "text": "I bounce back fast after a setback." }
   ]
 }

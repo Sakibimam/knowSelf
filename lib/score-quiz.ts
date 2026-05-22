@@ -34,12 +34,23 @@ export function isQuizComplete(
   scaleMin: number,
   scaleMax: number,
 ): boolean {
-  for (const item of items) {
+  return firstUnansweredIndex(items, answers, scaleMin, scaleMax) < 0;
+}
+
+/** Index of the first item without a valid answer, or -1 if all answered. */
+export function firstUnansweredIndex(
+  items: QuizItem[],
+  answers: Record<string, unknown>,
+  scaleMin: number,
+  scaleMax: number,
+): number {
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]!;
     if (coerceScaleAnswer(answers[item.id], scaleMin, scaleMax) === undefined) {
-      return false;
+      return i;
     }
   }
-  return true;
+  return -1;
 }
 
 /** Keep only valid item → score pairs for the active pack (drops stray keys). */
