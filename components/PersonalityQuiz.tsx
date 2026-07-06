@@ -7,6 +7,7 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { EmailReportModal } from "@/components/EmailReportModal";
 import { PsychometricTransparencyPanel } from "@/components/PsychometricTransparencyPanel";
 import type { InterpretationsData, TraitBand } from "@/lib/interpretations";
 import {
@@ -70,6 +71,7 @@ export function PersonalityQuiz({ pack, interpretations, variant }: Props) {
   const [consentOk, setConsentOk] = useState(!config.introConsentLabel);
   const storageKey = config.storageKey;
   const traitKeys = config.traitKeys;
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
   const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const indexRef = useRef(index);
   indexRef.current = index;
@@ -265,6 +267,14 @@ export function PersonalityQuiz({ pack, interpretations, variant }: Props) {
         : [],
     [results],
   );
+
+  const traitNames = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const key of traitKeys) {
+      map[key] = interpretations.traits[key]?.name ?? key;
+    }
+    return map;
+  }, [traitKeys, interpretations]);
 
   const shellWide = phase === "results";
   const mainMax = shellWide ? "max-w-2xl lg:max-w-3xl" : "max-w-lg";
@@ -618,6 +628,13 @@ export function PersonalityQuiz({ pack, interpretations, variant }: Props) {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
                 <button
                   type="button"
+                  onClick={() => setEmailModalOpen(true)}
+                  className="min-h-12 rounded-2xl bg-accent px-6 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] dark:text-stone-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
+                >
+                  Get report as PDF
+                </button>
+                <button
+                  type="button"
                   onClick={restart}
                   className="min-h-12 rounded-2xl border border-border/80 bg-background/40 px-6 text-sm font-medium text-foreground shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
                 >
@@ -625,11 +642,23 @@ export function PersonalityQuiz({ pack, interpretations, variant }: Props) {
                 </button>
                 <Link
                   href="/"
-                  className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-accent px-6 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] dark:text-stone-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-border/80 bg-background/40 px-6 text-sm font-medium text-foreground shadow-[var(--shadow-sm)] transition-[transform,box-shadow] hover:shadow-[var(--shadow-md)] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
                 >
                   Back to home
                 </Link>
               </div>
+
+              {identity && results && (
+                <EmailReportModal
+                  open={emailModalOpen}
+                  onClose={() => setEmailModalOpen(false)}
+                  identity={identity}
+                  results={results}
+                  interpretations={interpretations}
+                  traitNames={traitNames}
+                  quizTitle={pack.title}
+                />
+              )}
             </motion.div>
           )}
         </AnimatePresence>
